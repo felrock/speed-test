@@ -6,13 +6,15 @@ speed of the standard C++ library. I wondered if I could do the same with a simp
 # Cases
 
 ## vs to_string
+
 currently getting owned by std.
 
 ## vs stoi
+
 not too bad, still a little behind, but not that much.
 
 
-## Usage
+### Usage
 
 >g++ main.cpp -std=c++17
 
