@@ -6,6 +6,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <array>
 
 using Clock = std::chrono::high_resolution_clock;
 
@@ -56,6 +57,21 @@ private:
 /* ************************************************FUNCTIONS TO TEST************************************************* */
 /* ****************************************************************************************************************** */
 
+const std::array<char, 10> dig_to_char = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+const std::array<std::string, 100> digit_pairs = {
+  "00", "01", "02", "03", "04", "05", "06", "07", "08", "09",
+  "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
+  "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
+  "30", "31", "32", "33", "34", "35", "36", "37", "38", "39",
+  "40", "41", "42", "43", "44", "45", "46", "47", "48", "49",
+  "50", "51", "52", "53", "54", "55", "56", "57", "58", "59",
+  "60", "61", "62", "63", "64", "65", "66", "67", "68", "69",
+  "70", "71", "72", "73", "74", "75", "76", "77", "78", "79",
+  "80", "81", "82", "83", "84", "85", "86", "87", "88", "89",
+  "90", "91", "92", "93", "94", "95", "96", "97", "98", "99"
+};
+const std::array<int, 10> base_ten_mult = {1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000};
+
 // convert from integer to string
 std::string my_to_string(const int& number)
 {
@@ -65,7 +81,7 @@ std::string my_to_string(const int& number)
     }
     std::string result;
     bool is_neg = false;
-    int t_number;
+    int t_number, size=0;
     if(number < 0)
     {
         is_neg = true;
@@ -75,11 +91,28 @@ std::string my_to_string(const int& number)
     {
         t_number = number;
     }
-    
-    while(t_number)
+
+    for(const auto& mlt : base_ten_mult)
     {
-        result = static_cast<char>('0' + t_number % 10) + result;
-        t_number /= 10;
+        if(mlt > t_number)
+        {
+            break;
+        }
+        ++size;
+    }
+    result.resize(size);
+
+    for(int i=size-1; i > 0; i-=2) 
+    {
+        int t_mod_ = t_number % 100;
+        result[i] = digit_pairs[t_mod_][1];
+        result[i-1] = digit_pairs[t_mod_][0];
+        t_number /= 100;
+    }
+    if(t_number > 0)
+    {
+        int t_mod_ = t_number % 10;
+        result[0] = digit_pairs[t_mod_][1];
     }
     if(is_neg)
     {
@@ -102,7 +135,7 @@ int my_stoi(const std::string& str)
     }
     for(int i=stop; i < str.size(); ++i)
     {
-        number += (str[i] - '0')*pow(10, str.size()-i-1);
+        number += (str[i] - '0')*base_ten_mult[str.size()-i-1];
     }
     if(is_neg)
     {
@@ -112,13 +145,6 @@ int my_stoi(const std::string& str)
     {
         return number;
     }
-}
-
-int pow(const int& a, const int& b)
-{
-    if(b == 0)
-        return 1;
-    return a*pow(a, b-1);
 }
 
 #endif
