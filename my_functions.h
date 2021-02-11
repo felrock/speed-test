@@ -1,57 +1,16 @@
 #ifndef MY_FUNCTIONS_H_
 #define MY_FUNCTIONS_H_
 
+#include <array>
+#include <assert.h>
 #include <chrono>
 #include <functional>
 #include <iostream>
+#include <random>
 #include <string>
 #include <vector>
-#include <array>
 
 using Clock = std::chrono::high_resolution_clock;
-
-/* ****************************************************************************************************************** */
-/* ***************************************************HELPER CLASSES************************************************* */
-/* ****************************************************************************************************************** */
-
-template <class input, class output>
-class TestFunction
-{
-public: 
-    TestFunction(const std::string& name,
-                 std::function<output(input)> func,
-                 const std::vector<std::pair<input, output>>& test_data)
-        : _name(name) 
-        , _func(func)
-        , _test_data(test_data)
-    {
-    }
-    void run(std::ostream& os) 
-    {
-        int correct_guesses = 0;
-        auto t1 = Clock::now();
-        for(const auto& [inp, oup] : _test_data)
-        {
-            if(_func(inp) == oup)
-            {
-                correct_guesses++;
-            }
-            else
-            {
-                std::cout << _func(inp) << " " << oup << std::endl; 
-            }
-            
-        }
-        auto t2 = Clock::now();
-
-        os << "[" << correct_guesses << "/" << _test_data.size() << "] " << _name << ": ";
-        os << std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count() << " ms" << std::endl;
-    }
-private:
-    std::string _name;
-    std::function<output(input)> _func;
-    const std::vector<std::pair<input, output>>& _test_data;
-};
 
 /* ****************************************************************************************************************** */
 /* ************************************************FUNCTIONS TO TEST************************************************* */
@@ -143,6 +102,99 @@ int my_stoi(const std::string& str)
     {
         return number;
     }
+}
+
+/* ****************************************************************************************************************** */
+/* ***************************************************HELPER FUNCTIONS*********************************************** */
+/* ****************************************************************************************************************** */
+
+std::random_device dev;
+std::mt19937 rng(dev());
+std::uniform_int_distribution<std::mt19937::result_type> dist(-10000,10000);
+
+
+long long run_to_string(const int& input, const std::string& output, bool& correct) 
+{
+    int correct_guesses = 0;
+    auto t1 = Clock::now();
+    std::string str = std::to_string(input);
+    auto t2 = Clock::now();
+    correct = (str == output);
+
+    return std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
+}
+
+long long run_to_string() 
+{
+    int random_number = dist(rng);
+    auto t1 = Clock::now();
+    std::string str = std::to_string(random_number);
+    auto t2 = Clock::now();
+
+    return std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
+}
+
+long long run_my_to_string(const int& input, const std::string& output, bool& correct) 
+{
+    int correct_guesses = 0;
+    auto t1 = Clock::now();
+    std::string str = my_to_string(input);
+    auto t2 = Clock::now();
+    correct = (str == output);
+
+    return std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
+}
+
+long long run_my_to_string() 
+{
+    int random_number = dist(rng);
+    auto t1 = Clock::now();
+    std::string str = my_to_string(random_number);
+    auto t2 = Clock::now();
+
+    return std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
+}
+
+long long run_my_stoi(const std::string& input, const int& output, bool& correct) 
+{
+    int correct_guesses = 0;
+    auto t1 = Clock::now();
+    int i = my_stoi(input);
+    auto t2 = Clock::now();
+    correct = (i == output);
+
+    return std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
+}
+
+long long run_my_stoi() 
+{
+    std::string random_number = std::to_string(dist(rng));
+    auto t1 = Clock::now();
+    int i = my_stoi(random_number);
+    auto t2 = Clock::now();
+
+    return std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
+}
+
+long long run_stoi(const std::string& input, const int& output, bool& correct) 
+{
+    int correct_guesses = 0;
+    auto t1 = Clock::now();
+    int i = std::stoi(input);
+    auto t2 = Clock::now();
+    correct = (i == output);
+
+    return std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
+}
+
+long long run_stoi() 
+{
+    std::string random_number = std::to_string(dist(rng));
+    auto t1 = Clock::now();
+    int i = std::stoi(random_number);
+    auto t2 = Clock::now();
+
+    return std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
 }
 
 #endif
