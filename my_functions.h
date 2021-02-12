@@ -110,8 +110,7 @@ int my_stoi(const std::string& str)
 
 std::random_device dev;
 std::mt19937 rng(dev());
-std::uniform_int_distribution<std::mt19937::result_type> dist(-10000,10000);
-
+std::uniform_int_distribution<int> dist(-10000, 10000);
 
 long long run_to_string(const int& input, const std::string& output, bool& correct) 
 {
