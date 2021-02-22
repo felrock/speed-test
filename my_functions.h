@@ -59,7 +59,7 @@ std::string my_to_string(const int& number)
     }
     result.resize(size);
 
-    for(int i=size-1; i > 0; i-=2) 
+    for(int i=size-1; i > 0; i-=2)
     {
         int t_mod_ = t_number % 100;
         result[i] = digit_pairs[t_mod_][1];
@@ -112,7 +112,7 @@ std::random_device dev;
 std::mt19937 rng(dev());
 std::uniform_int_distribution<int> dist(-10000, 10000);
 
-long long run_to_string(const int& input, const std::string& output, bool& correct) 
+long long run_to_string(const int& input, const std::string& output, bool& correct)
 {
     int correct_guesses = 0;
     auto t1 = Clock::now();
@@ -123,7 +123,7 @@ long long run_to_string(const int& input, const std::string& output, bool& corre
     return std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
 }
 
-long long run_to_string() 
+long long run_to_string()
 {
     int random_number = dist(rng);
     auto t1 = Clock::now();
@@ -133,7 +133,7 @@ long long run_to_string()
     return std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
 }
 
-long long run_my_to_string(const int& input, const std::string& output, bool& correct) 
+long long run_my_to_string(const int& input, const std::string& output, bool& correct)
 {
     int correct_guesses = 0;
     auto t1 = Clock::now();
@@ -144,7 +144,7 @@ long long run_my_to_string(const int& input, const std::string& output, bool& co
     return std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
 }
 
-long long run_my_to_string() 
+long long run_my_to_string()
 {
     int random_number = dist(rng);
     auto t1 = Clock::now();
@@ -154,7 +154,7 @@ long long run_my_to_string()
     return std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
 }
 
-long long run_my_stoi(const std::string& input, const int& output, bool& correct) 
+long long run_my_stoi(const std::string& input, const int& output, bool& correct)
 {
     int correct_guesses = 0;
     auto t1 = Clock::now();
@@ -165,7 +165,7 @@ long long run_my_stoi(const std::string& input, const int& output, bool& correct
     return std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
 }
 
-long long run_my_stoi() 
+long long run_my_stoi()
 {
     std::string random_number = std::to_string(dist(rng));
     auto t1 = Clock::now();
@@ -175,7 +175,7 @@ long long run_my_stoi()
     return std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
 }
 
-long long run_stoi(const std::string& input, const int& output, bool& correct) 
+long long run_stoi(const std::string& input, const int& output, bool& correct)
 {
     int correct_guesses = 0;
     auto t1 = Clock::now();
@@ -186,7 +186,7 @@ long long run_stoi(const std::string& input, const int& output, bool& correct)
     return std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
 }
 
-long long run_stoi() 
+long long run_stoi()
 {
     std::string random_number = std::to_string(dist(rng));
     auto t1 = Clock::now();
