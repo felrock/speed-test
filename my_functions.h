@@ -16,9 +16,8 @@ using Clock = std::chrono::high_resolution_clock;
 /* ************************************************FUNCTIONS TO TEST************************************************* */
 /* ****************************************************************************************************************** */
 
-inline int nDigits(int i)
+inline int nDigits(const int& i)
 {
-    if (i < 0) i = -i;
     if (i <         10) return 1;
     if (i <        100) return 2;
     if (i <       1000) return 3;
@@ -34,23 +33,31 @@ inline int nDigits(int i)
 // convert from integer to string
 inline std::string my_to_string(int number)
 {
+    if (number == INT_MIN)
+    {
+        return "-2147483648";
+    }
     if (number < 0)
     {
-        std::string str;
         number = -number; 
+        int size = nDigits(number);
+        std::string str(size, ' ');
+        size--;
         while(number)
         {
-            str += ((number % 10) + 48);
+            str[size--] = static_cast<char>((number % 10) + 48);
             number /= 10;
         }
         return  "-" + str;
     }
     else
     {
-        std::string str;
+        int size = nDigits(number);
+        std::string str(size, ' ');
+        size--;
         while(number)
         {
-            str += ((number % 10) + 48);
+            str[size--] = static_cast<char>((number % 10) + 48);
             number /= 10;
         }
         return str;
@@ -60,13 +67,16 @@ inline std::string my_to_string(int number)
 // convert from string to integer
 inline int my_stoi(const std::string& str)
 {
-    int number = 0, exp = 1;
-    for(int i=str.size()-1; i >= 1; --i)
+    int number = 0;
+    int exp = 1;
+    int start = str[0] == '-' ? 1 : 0;
+
+    for(int i=str.size()-1; i >= start; --i)
     {
         number += (str[i] - '0')*exp;
         exp    *= 10;
     }
-    return str[0] == '-' ? -number : number;
+    return start ? -number : number;
 }
 
 /* ****************************************************************************************************************** */

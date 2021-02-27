@@ -14,10 +14,10 @@ std::pair<double, double> calc_mean_stddev(std::function<long long(int)> func)
     std::vector<double> times;
     for(int i=0; i < test_interval; ++i)
     {
-        times.push_back(static_cast<double>(func(test_size)/test_size));
+        times.push_back(static_cast<double>(func(test_size)/static_cast<double>(test_size)));
     }
 
-    double mean = std::accumulate(times.begin(), times.end(), 0) / test_interval;
+    double mean = std::accumulate(times.begin(), times.end(), 0) / static_cast<double>(test_interval);
     double var  = 0;
     for (const auto& t : times)
     {
