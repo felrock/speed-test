@@ -1,17 +1,17 @@
-# my_func vs std::func
+# std vs my_func 
 
-This repo holds code for investigating if a simple or novice implementation of a given function is "faster" than the standard library functions that are available. I placed faster in quotation marks since this is only an estimation and not an exact science, this is just for fun. Each function pair that I put in a 1 v 1 battle are displayed under *Cases* below.
+This is a repo for testing the difference in speed between a simple my_func and the C++ standard library(C++17). These test are in no way complete or conclusive, it's just for fun. *my_func* implementations are really simple, with emphasis on readability. The result could be different on your machine. I plan on adding more function comparisons in the future.
 
+# :rocket: Cases
 
-All **my_func** methods are implemented with both simplicity and speed in mind, where simplicity is the more important category in my opinion. Because in a realistic senario I wouldn't spend to much time on optimizing a to_string method for example.
+## :clock1: Converting std::string to int and back
 
-# Cases
+<p align=center>
 
-## Converting std::string to int and back
+<img src="https://raw.githubusercontent.com/felrock/my_func-speed-test/main/images/to_string.jpg" />
+</p>
 
-![results](./images/to_string.jpg)
-
-# my_to_string v.s std::to_string
+### my_to_string vs std::to_string
 
 Example run:
 
@@ -23,7 +23,7 @@ Example run:
 std::string is faster for sure in this test. 
 
 
-# my_stoi v.s std::stoi
+### my_stoi vs std::stoi
 
 Example run:
 
@@ -34,14 +34,36 @@ Example run:
 
 my_stoi was faster for sure in this test.
 
+## :clock1: Converting double to string and back
 
-## Usage
+:construction:
+
+## :clock1: Count occurances
+
+:construction:
+
+# Usage
 
 Compiler:  gcc (MinGW-W64 x86_64-posix-seh, built by Brecht Sanders) 10.2.0
 
+Build with gcc
+```
+ $ gcc main.cpp -std=c++17 -o2 -o main
+```
+
 Build with CMake.
-´´´
-mkdir build && cd build
-cmake ..
-make
-´´´
+```
+ $ mkdir build && cd build
+ $ cmake ..
+ $ make
+```
+
+Running gen_img.py you will need Matplotlib
+
+```
+$ python gen_img.py int_to_string.csv int_to_string.jpg
+```
+
+# License
+
+WTFPL
