@@ -30,6 +30,18 @@ inline int nDigits(const int& i)
     return 10;
 }
 
+inline int findDot(const std::string& str)
+{
+    int i=0;
+    for(const auto& chr : str)
+    {
+        if(chr == '.' || chr == ',')
+            return i;
+        i++;
+    }
+    return -1;
+}
+
 // convert from integer to string
 inline std::string my_to_string(int number)
 {
@@ -77,6 +89,53 @@ inline int my_stoi(const std::string& str)
         exp    *= 10;
     }
     return start ? -number : number;
+}
+
+// convert from string to double
+const std::array<double, 10> nums_lrg = {1.0, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, 10000000.0, 100000000.0, 100000000.0};
+const std::array<double, 10> nums_sml = {0.1, 0.01, 0.001, 0.0001, 0.00001, 0.000001, 0.0000001, 0.00000001, 0.000000001, 0.000000001};
+
+inline double my_stod(const std::string& str)
+{
+    bool is_neg = false;
+    int str_i   = 0;
+    if (str[0] == '-')
+    {
+        is_neg = true;
+        str_i  = 1;
+    }
+
+    double number = 0.0;
+    int dot_i = findDot(str);
+    int first_part_size = dot_i;
+    int second_part_size = str.size() - dot_i;
+
+    for (int i=first_part_size; i >= 0; --i)
+    {
+        number += (static_cast<double>(str[str_i++] - '0')*nums_lrg[i]);
+    }
+    for (int i=second_part_size; i < str.size(); ++i)
+    {
+        number += (static_cast<double>(str[str_i++] - '0')*nums_sml[i]);
+    }
+
+    if (is_neg)
+        return -number;
+    return number;
+}
+
+inline std::string to_string(double number)
+{
+    int lrg_part_int = static_cast<int>(number);
+    std::string lrg_part_str = my_to_string(lrg_part_int);
+    lrg_part_str += '.';
+    double sml_part_doub = (number - static_cast<double>(lrg_part_int))*10.0;
+    while(sml_part_doub)
+    {
+        lrg_part_str += static_cast<char>(static_cast<int>(sml_part_doub)%10 + 48);
+        sml_part_doub *= 10.0;
+    }
+    return lrg_part_str;    
 }
 
 /* ****************************************************************************************************************** */
