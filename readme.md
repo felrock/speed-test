@@ -9,17 +9,24 @@ All **my_func** methods are implemented with both simplicity and speed in mind, 
 
 ## Converting std::string to int and back
 
+![results](./images/to_string.jpg)
+
 # my_to_string v.s std::to_string
+
+Example run:
 
 ```
 [my_to_string] mean-time: 88.74 ns, std-dev: 14.4389 ns
 [std::to_string] mean-time: 54.11 ns, std-dev: 6.41044 ns
 ```
 
-std::string is faster for sure in this test.
+std::string is faster for sure in this test. 
 
 
 # my_stoi v.s std::stoi
+
+Example run:
+
 ```
 [my_stoi] mean-time: 38.85 ns, std-dev: 7.40463 ns
 [std::stoi] mean-time: 106.28 ns, std-dev: 7.32189 ns
