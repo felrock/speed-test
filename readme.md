@@ -7,20 +7,22 @@ All **my_func** methods are implemented with both simplicity and speed in mind, 
 
 # Cases
 
-## my_to_string v.s std::to_string
+## Converting std::string to int and back
+
+# my_to_string v.s std::to_string
 
 ```
-[std::to_string] mean-time: 55.03 ns, std-dev: 0.0846399 ns
-[my_to_string] mean-time: 94.06 ns, std-dev: 0.194284 ns
+[my_to_string] mean-time: 88.74 ns, std-dev: 14.4389 ns
+[std::to_string] mean-time: 54.11 ns, std-dev: 6.41044 ns
 ```
 
 std::string is faster for sure in this test.
 
 
-## my_stoi v.s std::stoi
+# my_stoi v.s std::stoi
 ```
-[my_stoi] mean-time: 44.65 ns, std-dev: 0.129752 ns
-[std::stoi] mean-time: 108.47 ns, std-dev: 0.155168 ns
+[my_stoi] mean-time: 38.85 ns, std-dev: 7.40463 ns
+[std::stoi] mean-time: 106.28 ns, std-dev: 7.32189 ns
 ```
 
 my_stoi was faster for sure in this test.

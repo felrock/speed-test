@@ -1,5 +1,6 @@
-a.exe
-a.out
+*.exe
+*.out
 *.o
 .vscode
 build
+*.csv

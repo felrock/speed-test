@@ -4,16 +4,31 @@ import scipy.stats as stats
 import math
 import sys
 
-mu_1 = float(sys.argv[1])
-sig_1 = float(sys.argv[2])
-x1 = np.linspace(mu_1 - 3*sig_1, mu_1 + 3*sig_1, 100)
+if len(sys.argv) < 2:
+    print('Usage: gen_img.py <input csv file> <output image file>')
+    sys.exit()
 
-mu_2 = float(sys.argv[3])
-sig_2 = float(sys.argv[4])
-x2 = np.linspace(mu_2 - 3*sig_2, mu_2 + 3*sig_2, 100)
+plt.figure(figsize=(8,4))
+file_res = open(sys.argv[1])
 
+ticks = []
+i = 0
+for line in file_res:
 
+    vals = line.split(', ')
+    mu = float(vals[1])
+    sig = float(vals[2])
+    ticks.append(vals[0])
 
-plt.plot(x1, stats.norm.pdf(x1, mu_1, sig_1), color='green')
-plt.plot(x2, stats.norm.pdf(x2, mu_2, sig_2), color='red')
-plt.savefig("to_string.jpg")
+    # set color depending on implementation
+    color = 'blue' if 'std' in vals[0] else 'red'
+
+    plt.errorbar(mu, i, xerr=sig, fmt='o', color=color, capsize=10,
+                markersize=10)
+    i += 1
+
+plt.yticks([n for n in range(i)], ticks)
+plt.tight_layout()
+plt.subplots_adjust(bottom=0.15)
+plt.xlabel('Time in nano-seconds')
+plt.savefig('images/'+sys.argv[2])
