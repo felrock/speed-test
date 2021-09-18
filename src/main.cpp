@@ -34,12 +34,6 @@ int main(void)
     std::vector<std::tuple<std::string, double, double>> results;
     std::cout << "\n[*] Running each function " << test_size << " times \"back-2-back\" and calulucate mean and std deviation...\n" << std::endl;
 
-/* ******************************************************************************************** */
-/* ******************************************************************************************** */
-/* ******************************************************************************************** */
-
-    // convert std::string to int, and back
-
     std::pair<double, double> result_my_to_string = calc_mean_std(static_cast<timer_func>(run_my_to_string));
     std::cout << "[my_to_string] mean-time: " << result_my_to_string.first;
     std::cout << " ns, std-dev: " << result_my_to_string.second << " ns" << std::endl;
@@ -67,12 +61,6 @@ int main(void)
         file_str_to_int << std::get<0>(res) << ", " << std::get<1>(res) << ", " << std::get<2>(res) << std::endl;
     }
     file_str_to_int.close();
-
-/* ******************************************************************************************** */
-/* ******************************************************************************************** */
-/* ******************************************************************************************** */
-
-
 
     return 0;
 }
