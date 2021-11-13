@@ -3,21 +3,13 @@
 #include <numeric>
 #include <fstream>
 
-#include "my_functions.h"
+#include "FunctionTester.h"
 
 const int test_size = 1000000;
 const int test_interval = 100;
 
-using timer_func = long long(*)(int);
-
-std::pair<double, double> calc_mean_std(std::function<long long(int)> func)
+std::pair<double, double> calc_mean_std(std::vector<double> times)
 {
-    std::vector<double> times;
-    for(int i=0; i < test_interval; ++i)
-    {
-        times.push_back(static_cast<double>(func(test_size)/static_cast<double>(test_size)));
-    }
-
     double mean = std::accumulate(times.begin(), times.end(), 0) / static_cast<double>(test_interval);
     double var  = 0;
     for (const auto& t : times)
@@ -32,24 +24,46 @@ std::pair<double, double> calc_mean_std(std::function<long long(int)> func)
 int main(void)
 {
     std::vector<std::tuple<std::string, double, double>> results;
+    speed_test::FunctionTester ft;
+    std::vector<double> times;
     std::cout << "\n[*] Running each function " << test_size << " times \"back-2-back\" and calulucate mean and std deviation...\n" << std::endl;
 
-    std::pair<double, double> result_my_to_string = calc_mean_std(static_cast<timer_func>(run_my_to_string));
+    for (size_t i=0; i < test_interval; ++i)
+    {
+        ft.testMyIntToString(test_size);
+        times.push_back(ft.getTime());
+    }
+    std::pair<double, double> result_my_to_string = calc_mean_std(times);
     std::cout << "[my_to_string] mean-time: " << result_my_to_string.first;
     std::cout << " ns, std-dev: " << result_my_to_string.second << " ns" << std::endl;
     results.push_back({"my_to_string", result_my_to_string.first, result_my_to_string.second});
 
-    std::pair<double, double> result_to_string = calc_mean_std(static_cast<timer_func>(run_to_string));
+    for (size_t i=0; i < test_interval; ++i)
+    {
+        ft.testStdIntToString(test_size);
+        times.push_back(ft.getTime());
+    }
+    std::pair<double, double> result_to_string = calc_mean_std(times);
     std::cout << "[std::to_string] mean-time: " << result_to_string.first;
     std::cout << " ns, std-dev: " << result_to_string.second << " ns" << std::endl;
     results.push_back({"std::to_string", result_to_string.first, result_to_string.second});
 
-    std::pair<double, double> result_my_stoi = calc_mean_std(static_cast<timer_func>(run_my_stoi));
+    for (size_t i=0; i < test_interval; ++i)
+    {
+        ft.testMyStringToInt(test_size);
+        times.push_back(ft.getTime());
+    }
+    std::pair<double, double> result_my_stoi = calc_mean_std(times);
     std::cout << "[my_stoi] mean-time: " << result_my_stoi.first;
     std::cout << " ns, std-dev: " << result_my_stoi.second << " ns" << std::endl;
     results.push_back({"my_stoi", result_my_stoi.first, result_my_stoi.second});
 
-    std::pair<double, double> result_stoi = calc_mean_std(static_cast<timer_func>(run_stoi));
+    for (size_t i=0; i < test_interval; ++i)
+    {
+        ft.testStdStringToInt(test_size);
+        times.push_back(ft.getTime());
+    }
+    std::pair<double, double> result_stoi = calc_mean_std(times);
     std::cout << "[std::stoi] mean-time: " << result_stoi.first;
     std::cout << " ns, std-dev: " << result_stoi.second << " ns" << std::endl;
     results.push_back({"std::stoi", result_stoi.first, result_stoi.second});

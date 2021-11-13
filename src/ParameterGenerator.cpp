@@ -11,46 +11,38 @@ ParameterGenerator::ParameterGenerator()
    unif_float = std::make_unique<std::uniform_real_distribution<float>>(-10000.0, 10000.0);
 }
 
-std::pair<int, std::string> ParameterGenerator::genIntStr()
+template <typename T>
+T ParameterGenerator::genSample()
 {
-   auto unif_ref = *unif_int;
-   int random_int = unif_ref(rde);
-   return std::pair<int, std::string>(random_int, std::to_string(random_int));
+   if (std::is_same<T, StrInt>::value)
+   {
+      auto unif_ref = *unif_int;
+      int random_int = unif_ref(rde);
+      return StrInt(std::to_string(random_int), random_int);
+   }
+   else if (std::is_same<T, StrDouble>::value)
+   {
+      auto unif_ref = *unif_double;
+      double random_double = unif_ref(rde);
+      return StrDouble(std::to_string(random_double), random_double);
+   }
+   else
+   {
+      auto unif_ref = *unif_float;
+      float random_float = unif_ref(rde);
+      return StrFloat(std::to_string(random_float), random_float);
+   }
 }
 
-std::pair<std::string, int> ParameterGenerator::genStrInt()
+template<typename T>
+std::vector<T> ParameterGenerator::genMulitple(const size_t count)
 {
-   auto unif_ref = *unif_int;
-   int random_int = unif_ref(rde);
-   return std::pair<std::string, int>(std::to_string(random_int), random_int);
+   auto vector = std::vector<T>(count);
+   for (size_t i=0; i < count; ++i)
+   {
+      vector.push_back(genSample<T>());
+   }
+   return vector;
 }
-
-std::pair<double, std::string> ParameterGenerator::genDoubleStr()
-{
-   auto unif_ref = *unif_double;
-   double random_double = unif_ref(rde);
-   return std::pair<double, std::string>(random_double, std::to_string(random_double));
-}
-
-std::pair<std::string, double> ParameterGenerator::genStrDouble()
-{
-   auto unif_ref = *unif_double;
-   double random_double = unif_ref(rde);
-   return std::pair<std::string, double>(std::to_string(random_double), random_double);
-};
-
-std::pair<float, std::string> ParameterGenerator::genFloatStr()
-{
-   auto unif_ref = *unif_float;
-   float random_float = unif_ref(rde);
-   return std::pair<float, std::string>(random_float, std::to_string(random_float));
-};
-
-std::pair<std::string, float> ParameterGenerator::genStrFloat()
-{
-   auto unif_ref = *unif_float;
-   float random_float = unif_ref(rde);
-   return std::pair<std::string, float>(std::to_string(random_float), random_float);
-};
 
 } // speed_test
